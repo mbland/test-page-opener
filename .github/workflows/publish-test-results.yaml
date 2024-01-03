@@ -40,6 +40,6 @@ jobs:
         uses: dorny/test-reporter@v1
         with:
           name: Test Results
-          path: 'TESTS-TestSuites.xml'
+          path: 'TESTS-*.xml'
           reporter: java-junit
           fail-on-error: true
