@@ -252,7 +252,11 @@ class JsdomPageOpener {
 
     // Upon resolution of jsdom/jsdom#2475, delete this #importModulesPromise
     // call. (And delete this comment, and maybe the entire comment above.)
-    await this.#importModulesPromise(window, document)
+    try {
+      await this.#importModules(window, document)
+    } catch (err) {
+      throw new Error(`error importing modules from ${pagePath}: ${err}`)
+    }
     return { window, document, close() { window.close() } }
   }
 
@@ -263,7 +267,7 @@ class JsdomPageOpener {
    * @returns {Promise} - resolves after importing all ECMAScript modules
    * @throws if importing any ECMAScript modules fails
    */
-  #importModulesPromise(window, document) {
+  #importModules(window, document) {
     return new Promise(resolve => {
       const importModulesOnEvent = async () => {
         // The jsdom docs advise against setting global properties, but we don't
@@ -343,9 +347,9 @@ class JsdomPageOpener {
  * @throws if importing any ECMAScript modules fails
  */
 function importModules(doc) {
-  const modules = doc.querySelectorAll('script[type="module"]')
-  return Promise.all(Array.from(modules)
-    .filter(m => m.src !== undefined)
-    .map(async m => await import(m.src))
-  )
+  const modules = Array.from(doc.querySelectorAll('script[type="module"]'))
+  return Promise.all(modules.filter(m => m.src).map(async m => {
+    try { await import(m.src) }
+    catch (err) { throw Error(`error importing ${m.src}: ${err}`) }
+  }))
 }
