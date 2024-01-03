@@ -18,18 +18,25 @@
  * in Node.js using jsdom.
  */
 export class PageOpener {
-  static #impl
-
   #basePath
+  #impl
   #opened
 
-  constructor(basePath) {
+  constructor(basePath, impl) {
     if (!basePath.startsWith('/') || !basePath.endsWith('/')) {
       const msg = 'basePath should start with \'/\' and end with \'/\''
       throw new Error(`${msg}, got: "${basePath}"`)
     }
     this.#basePath = basePath
+    this.#impl = impl
     this.#opened = []
+  }
+
+  static async create(basePath) {
+    const impl = globalThis.window ?
+      new BrowserPageOpener(globalThis.window) :
+      new JsdomPageOpener(await import('jsdom'))
+    return new PageOpener(basePath, impl)
   }
 
   async open(pagePath) {
@@ -38,9 +45,7 @@ export class PageOpener {
       throw new Error(`${msg}, got: "${pagePath}"`)
     }
 
-    const impl = await PageOpener.getImpl()
-    const page = await impl.open(this.#basePath, pagePath)
-
+    const page = await this.#impl.open(this.#basePath, pagePath)
     this.#opened.push(page)
     return page
   }
@@ -48,18 +53,6 @@ export class PageOpener {
   closeAll() {
     this.#opened.forEach(p => p.close())
     this.#opened = []
-  }
-
-  static async getImpl() {
-    if (this.#impl) {
-      return this.#impl
-    }
-
-    if (globalThis.window) {
-      return this.#impl = new BrowserPageOpener(globalThis.window)
-    }
-
-    return this.#impl = new JsdomPageOpener(await import('jsdom'))
   }
 }
 

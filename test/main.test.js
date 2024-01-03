@@ -4,11 +4,13 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-import { afterEach, describe, expect, test } from 'vitest'
+import { afterEach, beforeAll, describe, expect, test } from 'vitest'
 import { PageOpener } from '../index.js'
 
 describe('PageOpener', () => {
-  const opener = new PageOpener('/basedir/')
+  let opener
+
+  beforeAll(async () => opener = await PageOpener.create('/basedir/'))
   afterEach(() => opener.closeAll())
 
   test('contains the "Hello, World!" placeholder', async () => {
