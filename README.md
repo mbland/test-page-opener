@@ -121,12 +121,14 @@ My [mbland/tomcat-servlet-testing-example][] project
 
 ### Page Object pattern
 
-### Using a fake backend
+### Mocking backend calls
+
+TODO: Look into <https://mswjs.io>
+
+### Using a separate backend
 
 - Injecting a backend address
 - CORS
-
-### Stubbing fetch()?
 
 ## Development
 
