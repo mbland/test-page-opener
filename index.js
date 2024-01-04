@@ -42,7 +42,7 @@ export class PageOpener {
    */
   async open(pagePath) {
     if (pagePath.startsWith('/')) {
-      const msg = 'page path should not start with \'/\''
+      const msg = 'page path shouldn\'t start with \'/\''
       throw new Error(`${msg}, got: "${pagePath}"`)
     }
 
