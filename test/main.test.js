@@ -14,7 +14,7 @@ describe('PageOpener', () => {
   afterEach(() => opener.closeAll())
 
   test('loads page with module successfully', async () => {
-    const { document } = await opener.open('index.html')
+    const { document } = await opener.open('test-modules/index.html')
     const appElem = document.querySelector('#app')
     const linkElem = document.querySelector('#app p a')
 
@@ -30,9 +30,8 @@ describe('PageOpener', () => {
     expect(newOpener('/basedir')).toThrow(prefix + '"/basedir"')
   })
 
-  test('open() throws if page path starts with \'/\'', async() => {
-    await expect(opener.open('/index.html')).rejects.toThrow(
-      'page path shouldn\'t start with \'/\', got: "/index.html"'
-    )
+  test('open() throws if page path starts with \'/\'', async () => {
+    await expect(opener.open('/index.html')).rejects
+      .toThrow('page path shouldn\'t start with \'/\', got: "/index.html"')
   })
 })
