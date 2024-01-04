@@ -4,6 +4,11 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+dependencies:
+  istanbul-lib-coverage:
+    specifier: ^3.2.2
+    version: 3.2.2
+
 devDependencies:
   '@stylistic/eslint-plugin-js':
     specifier: ^1.5.3
@@ -2399,7 +2404,6 @@ packages:
   /istanbul-lib-coverage@3.2.2:
     resolution: {integrity: sha512-O8dpsF+r0WV/8MNRKfnmrtCWhuKjxrq2w+jpzBL5UZKTi2LeVWnWOmWRxFlesJONmc+wLAGvKQZEOanko0LFTg==}
     engines: {node: '>=8'}
-    dev: true
 
   /istanbul-lib-instrument@6.0.1:
     resolution: {integrity: sha512-EAMEJBsYuyyztxMxW3g7ugGPkrZsV57v0Hmv3mm1uQsmB+QnZuepg731CRaIgeUVSdmsTngOkSnauNF8p7FIhA==}

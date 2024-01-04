@@ -40,5 +40,8 @@
     "vite": "^5.0.10",
     "vitest": "^1.1.1",
     "webdriverio": "^8.27.0"
+  },
+  "dependencies": {
+    "istanbul-lib-coverage": "^3.2.2"
   }
 }
