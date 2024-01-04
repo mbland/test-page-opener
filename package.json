@@ -28,17 +28,17 @@
   "bugs": "https://github.com/mbland/test-page-opener/issues",
   "devDependencies": {
     "@stylistic/eslint-plugin-js": "^1.5.3",
-    "@vitest/browser": "^1.1.1",
-    "@vitest/coverage-istanbul": "^1.1.1",
-    "@vitest/coverage-v8": "^1.1.1",
-    "@vitest/ui": "^1.1.1",
+    "@vitest/browser": "^1.1.2",
+    "@vitest/coverage-istanbul": "^1.1.2",
+    "@vitest/coverage-v8": "^1.1.2",
+    "@vitest/ui": "^1.1.2",
     "eslint": "^8.56.0",
     "eslint-plugin-jsdoc": "^46.10.1",
     "eslint-plugin-vitest": "^0.3.20",
     "jsdoc-cli-wrapper": "^1.0.4",
     "jsdom": "^23.0.1",
     "vite": "^5.0.10",
-    "vitest": "^1.1.1",
+    "vitest": "^1.1.2",
     "webdriverio": "^8.27.0"
   },
   "dependencies": {

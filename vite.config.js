@@ -52,10 +52,7 @@ function getProviderOptions(){
 }
 
 export default defineConfig({
-  // Remove process.env.VITEST hack once the following are resolved/merged:
-  // - https://github.com/vitest-dev/vitest/issues/4686
-  // - https://github.com/vitest-dev/vitest/pull/4692
-  base: process.env.VITEST ? undefined : '/basedir/',
+  base: '/basedir/',
   define: {
     STRCALC_BACKEND: JSON.stringify(process.env.STRCALC_BACKEND)
   },
