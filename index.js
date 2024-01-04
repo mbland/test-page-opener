@@ -59,8 +59,7 @@ export class PageOpener {
       return this.#impl = new BrowserPageOpener(globalThis.window)
     }
 
-    const {JSDOM} = await import('jsdom')
-    return this.#impl = new JsdomPageOpener(JSDOM, importModulesDynamically)
+    return this.#impl = new JsdomPageOpener(await import('jsdom'))
   }
 }
 
@@ -109,11 +108,9 @@ class BrowserPageOpener {
  */
 class JsdomPageOpener {
   #JSDOM
-  #importModules
 
-  constructor(jsdom, importModules) {
-    this.#JSDOM = jsdom
-    this.#importModules = importModules
+  constructor({ JSDOM }) {
+    this.#JSDOM = JSDOM
   }
 
   /**
@@ -299,7 +296,7 @@ class JsdomPageOpener {
         // window and document from globalThis.
         globalThis.window = window
         globalThis.document = document
-        await this.#importModules(window, document)
+        await importModules(document)
 
         // The DOMContentLoaded and load events registered by jsdom.fromFile()
         // will already have fired by this point.
@@ -345,7 +342,7 @@ class JsdomPageOpener {
  * @returns {Promise} - resolves after importing all ECMAScript modules in doc
  * @throws if importing any ECMAScript modules fails
  */
-function importModulesDynamically(window, doc) {
+function importModules(doc) {
   const modules = doc.querySelectorAll('script[type="module"]')
   return Promise.all(Array.from(modules)
     .filter(m => m.src !== undefined)
