@@ -7,14 +7,14 @@ in [Node.js][] using [jsdom][]. Supports [JavaScript modules][] loaded via the
 _**Status**: I've still got a bit of work to do before publishing v1.0.0. I need
 to add tests based on the mbland/tomcat-servlet-testing-example project from
 whence this came, add more documentation, and refactor. I plan to finish this by
-2024-01-03._
+2024-01-04._
 
 Source: <https://github.com/mbland/test-page-opener>
 
 [![License](https://img.shields.io/github/license/mbland/test-page-opener.svg)](https://github.com/mbland/test-page-opener/blob/main/LICENSE.txt)
 [![CI status](https://github.com/mbland/test-page-opener/actions/workflows/run-tests.yaml/badge.svg)](https://github.com/mbland/test-page-opener/actions/workflows/run-tests.yaml?branch=main)
 [![Test results](https://github.com/mbland/test-page-opener/actions/workflows/publish-test-results.yaml/badge.svg)](https://github.com/mbland/test-page-opener/actions/workflows/publish-test-results.yaml?branch=main)
-[![Coverage Status](https://coveralls.io/repos/github/mbland/test-page-opener/badge.svg?branch=main)][coveralls-jsdw]
+[![Coverage Status](https://coveralls.io/repos/github/mbland/test-page-opener/badge.svg?branch=main)][coveralls-tpo]
 [![npm version](https://badge.fury.io/js/test-page-opener.svg)][npm-tpo]
 
 ## Installation
@@ -100,7 +100,7 @@ and the Chain Reaction][].
 
 ## Features and limitations
 
-### Limited JavaScript/ECMAScript/ES6 Module (a.k.a. ESM) support
+### Limited JavaScript/ECMAScript/ES6 Module (a.k.a. ESM) support for jsdom
 
 **jsdom** doesn't natively support [JavaScript modules][] at all, even though
 Node.js has supported [ECMAScript modules][] since v18. The problem is that the
@@ -112,10 +112,6 @@ type=module&gt; support #2475][jsdom-2475].
 attribute of [&lt;script type="module"&gt; tags][esm-script-tag]. It achieves
 this by passing the `src` path to [dynamic import()][]. Inline module scripts
 and [&lt;script type="importmap"&gt;][] aren't supported.
-
-### DocumentFragment behaviors
-
-Especially &lt;form&gt; actions.
 
 ## Examples
 
@@ -136,7 +132,10 @@ My [mbland/tomcat-servlet-testing-example][] project
 
 Uses [pnpm][] and [Vitest][] for building and testing.
 
-Developed using [Vim][], [Visual Studio Code][], and [IntelliJ IDEA][] interchangeably, depending on my inclination from moment to moment.
+Uses [GitHub Actions][] for continuous integration.
+
+Developed using [Vim][], [Visual Studio Code][], and [IntelliJ IDEA][]
+interchangeably, depending on my inclination from moment to moment.
 
 ## Background
 
@@ -168,7 +167,7 @@ level explanation.
 [jsdom]: https://github.com/jsdom/jsdom
 [JavaScript Modules]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules
 [esm-script-tag]: https://developer.mozilla.org/docs/Web/HTML/Element/script#module
-[coveralls-jsdw]: https://coveralls.io/github/mbland/test-page-opener?branch=main
+[coveralls-tpo]: https://coveralls.io/github/mbland/test-page-opener?branch=main
 [npm-tpo]: https://www.npmjs.com/package/test-page-opener
 [pnpm]: https://pnpm.io/
 [DOMContentLoaded]: https://developer.mozilla.org/docs/Web/API/Document/DOMContentLoaded_event
@@ -186,6 +185,7 @@ level explanation.
 [dynamic import()]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Operators/import
 [&lt;script type="importmap"&gt;]: https://developer.mozilla.org/docs/Web/HTML/Element/script/type/importmap
 [mbland/tomcat-servlet-testing-example]: https://github.com/mbland/tomcat-servlet-testing-example
+[GitHub Actions]: https://docs.github.com/actions
 [Vim]: https://www.vim.org/
 [Visual Studio Code]: https://code.visualstudio.com/
 [IntelliJ IDEA]: https://www.jetbrains.com/idea/
