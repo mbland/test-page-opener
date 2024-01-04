@@ -331,9 +331,13 @@ class JsdomPageOpener {
           'load', {bubbles: false, cancelable: false}
         ))
       }
-      document.addEventListener(
-        'DOMContentLoaded', importModulesOnEvent, {once: true}
-      )
+
+      // If the page has other resources, like a stylesheet, it may still be
+      // loading (document.readyState === "loading"). If not, it may already
+      // have fired DOMContentLoaded (document.readyState === "interactive").
+      // Either way, both will always fire before importModules() resolves, so
+      // unconditionally register a "load" handler.
+      window.addEventListener('load', importModulesOnEvent, {once: true})
     })
   }
 }
