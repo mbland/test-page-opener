@@ -5,6 +5,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+import libCoverage from 'istanbul-lib-coverage'
+
 /**
  * Return value from PageOpener.open()
  * @typedef OpenedPage
@@ -58,35 +60,42 @@ export class PageOpener {
 
 class BrowserPageOpener {
   #window
+  #coverageKey
 
   constructor(window) {
     this.#window = window
+    this.#coverageKey = BrowserPageOpener.getCoverageKey(window)
   }
 
-  // Opens a page and returns {window, document, close()} using the browser.
+  static getCoverageKey(globalObj) {
+    const foundKey = Object.getOwnPropertyNames(globalObj)
+      .find(n => /_+.*coverage_+/i.test(n))
+    return foundKey || '__coverage__'
+  }
+
+  // open a page and returns {window, document, close()} using the browser.
   async open(basePath, pagePath) {
     const w = this.#window.open(`${basePath}${pagePath}`)
+    const close = () => {
+      this.#mergeCoverageStore(w)
+      w.close()
+    }
     return new Promise(resolve => {
       const listener = () => {
-        this.#setCoverageStore(w)
-        resolve({window: w, document: w.document, close() {w.close()}})
+        resolve({window: w, document: w.document, close})
       }
       w.addEventListener('load', listener, {once: true})
     })
   }
 
-  // This is an egregious, brittle hack that's very specific to Vitest's
-  // Istanbul coverage provider. It also only collects coverage from the last
-  // page opened; it loses coverage information for all other pages.
-  //
-  // But as long as a test function calls BrowserPageOpener.load() only once, it
-  // should work pretty well.
-  #setCoverageStore(openedWindow) {
-    const COVERAGE_STORE_KEY = '__VITEST_COVERAGE__'
+  // This is very specific to the Istanbul coverage provider.
+  #mergeCoverageStore(openedWindow) {
+    const covKey = this.#coverageKey
+    const thisCov = this.#window[covKey]
+    const combinedCov = libCoverage.createCoverageMap(thisCov)
 
-    if (COVERAGE_STORE_KEY in openedWindow) {
-      this.#window[COVERAGE_STORE_KEY] = openedWindow[COVERAGE_STORE_KEY]
-    }
+    combinedCov.merge(openedWindow[covKey])
+    this.#window[covKey] = combinedCov.toJSON()
   }
 }
 
@@ -156,7 +165,6 @@ class JsdomPageOpener {
     )
     const document = window.document
 
-    // Upon resolution of jsdom/jsdom#2475, we can delete this import block.
     try {
       await this.#importModules(window, document)
     } catch (err) {
