@@ -1,5 +1,3 @@
-/* eslint-env browser, node, jest, vitest */
-
 import JsdomPageOpener from '../lib/jsdom'
 import { beforeAll, describe, expect, test } from 'vitest'
 

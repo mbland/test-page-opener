@@ -1,4 +1,3 @@
-/* eslint-env browser, node */
 /*
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -28,6 +27,14 @@ export class PageOpener {
     this.#opened = []
   }
 
+  /**
+   * Creates a new PageOpener instance.
+   *
+   * Prefer this to calling `new PageOpener`.
+   * @param {string} basePath - base path of the application under test
+   * @returns {PageOpener} - a new PageOpener initialized to open pages in the
+   *   current test environment, either via Jsdom or the browser
+   */
   static async create(basePath) {
     const impl = globalThis.window ?
       new BrowserPageOpener(globalThis.window) :
@@ -51,6 +58,9 @@ export class PageOpener {
     return page
   }
 
+  /**
+   * Closes the window object for all currently opened pages
+   */
   closeAll() {
     this.#opened.forEach(p => p.close())
     this.#opened = []
