@@ -13,11 +13,24 @@ import { OpenedPage } from './lib/types'
  * in Node.js using jsdom.
  */
 export class PageOpener {
+  static #isConstructing = false
+
   #basePath
   #impl
   #opened
 
+  /**
+   * Based on the private constructor idiom.
+   * @see https://developer.mozilla.org/docs/Web/JavaScript/Reference/Classes/Private_properties#simulating_private_constructors
+   * @access private
+   * @param {string} basePath - base path of the application under test
+   * @param {(BrowserPageOpener|JsdomPageOpener)} impl - either a browser or
+   *   jsdom implementation for opening HTML pages
+   */
   constructor(basePath, impl) {
+    if (!PageOpener.#isConstructing) {
+      throw new Error('use PageOpener.create() instead')
+    }
     if (!basePath.startsWith('/') || !basePath.endsWith('/')) {
       const msg = 'basePath should start with \'/\' and end with \'/\''
       throw new Error(`${msg}, got: "${basePath}"`)
@@ -25,13 +38,20 @@ export class PageOpener {
     this.#basePath = basePath
     this.#impl = impl
     this.#opened = []
+    PageOpener.#isConstructing = false
   }
 
   /**
    * Creates a new PageOpener instance.
    *
-   * Prefer this to calling `new PageOpener`.
-   * @param {string} basePath - base path of the application under test
+   * Call this once for each test class or `describe()` block, e.g.:
+   *
+   * ```js
+   * let opener
+   * beforeAll(async () => opener = await PageOpener.create('/basedir/'))
+   * ```
+   * @param {string} basePath - base path of the application under test; must
+   *   start with '/' and end with '/'
    * @returns {PageOpener} - a new PageOpener initialized to open pages in the
    *   current test environment, either via Jsdom or the browser
    */
@@ -39,6 +59,8 @@ export class PageOpener {
     const impl = globalThis.window ?
       new BrowserPageOpener(globalThis.window) :
       new JsdomPageOpener(await import('jsdom'))
+
+    PageOpener.#isConstructing = true
     return new PageOpener(basePath, impl)
   }
 

@@ -3,6 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
+
 import { afterEach, beforeAll, describe, expect, test } from 'vitest'
 import { PageOpener } from '../index.js'
 
@@ -21,12 +22,17 @@ describe('PageOpener', () => {
     expect(linkElem.href).toContain('%22Hello,_World!%22')
   })
 
-  test('constructor throws if basePath is malformed', () => {
-    const newOpener = (basePath) => () => new PageOpener(basePath)
-    const  prefix = 'basePath should start with \'/\' and end with \'/\', got: '
+  test('constructor throws if called directly', () => {
+    expect(() => new PageOpener('unused', null))
+      .toThrowError('use PageOpener.create() instead')
+  })
 
-    expect(newOpener('basedir/')).toThrow(prefix + '"basedir/"')
-    expect(newOpener('/basedir')).toThrow(prefix + '"/basedir"')
+  test('constructor throws if basePath is malformed', async () => {
+    const newOpener = (basePath) => () => PageOpener.create(basePath)
+    const prefix = 'basePath should start with \'/\' and end with \'/\', got:'
+
+    await expect(newOpener('basedir/')).rejects.toThrow(`${prefix} "basedir/"`)
+    await expect(newOpener('/basedir')).rejects.toThrow(`${prefix} "/basedir"`)
   })
 
   test('open() throws if page path starts with \'/\'', async () => {
