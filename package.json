@@ -1,6 +1,6 @@
 {
   "name": "test-page-opener",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Enables an application's tests to open its own page URLs both in the browser and in Node.js using jsdom",
   "main": "index.js",
   "scripts": {

@@ -4,9 +4,9 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import BrowserPageOpener from './lib/browser'
-import JsdomPageOpener from './lib/jsdom'
-import { OpenedPage } from './lib/types'
+import BrowserPageOpener from './lib/browser.js'
+import JsdomPageOpener from './lib/jsdom.js'
+import { OpenedPage } from './lib/types.js'
 
 /**
  * Enables tests to open an application's own page URLs both in the browser and
