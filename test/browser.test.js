@@ -1,0 +1,14 @@
+import { DEFAULT_COVERAGE_KEY, getCoverageKey } from '../lib/browser'
+import { describe, expect, test } from 'vitest'
+
+describe('getCoverageKey', () => {
+  test('returns existing coverage key', () => {
+    expect(getCoverageKey({__coverage__: null})).toBe('__coverage__')
+    expect(getCoverageKey({__VITEST_COVERAGE__: null}))
+      .toBe('__VITEST_COVERAGE__')
+  })
+
+  test('returns default __coverage__ key if no existing key', () => {
+    expect(getCoverageKey({})).toBe(DEFAULT_COVERAGE_KEY)
+  })
+})
