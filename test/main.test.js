@@ -5,7 +5,7 @@
  */
 
 import { afterEach, beforeAll, describe, expect, test } from 'vitest'
-import { TestPageOpener } from '../index.js'
+import TestPageOpener from '../index.js'
 
 describe('TestPageOpener', () => {
   let opener

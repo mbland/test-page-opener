@@ -25,7 +25,7 @@ pnpm add -D test-page-opener
 
 ```js
 import { afterEach, beforeAll, describe, expect, test } from 'vitest'
-import { TestPageOpener } from 'test-page-opener'
+import TestPageOpener from 'test-page-opener'
 
 describe('TestPageOpener', () => {
   let opener
