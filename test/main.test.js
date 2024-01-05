@@ -5,12 +5,12 @@
  */
 
 import { afterEach, beforeAll, describe, expect, test } from 'vitest'
-import { PageOpener } from '../index.js'
+import { TestPageOpener } from '../index.js'
 
-describe('PageOpener', () => {
+describe('TestPageOpener', () => {
   let opener
 
-  beforeAll(async () => opener = await PageOpener.create('/basedir/'))
+  beforeAll(async () => opener = await TestPageOpener.create('/basedir/'))
   afterEach(() => opener.closeAll())
 
   test('loads page with module successfully', async () => {
@@ -23,12 +23,12 @@ describe('PageOpener', () => {
   })
 
   test('constructor throws if called directly', () => {
-    expect(() => new PageOpener('unused', null))
-      .toThrowError('use PageOpener.create() instead')
+    expect(() => new TestPageOpener('unused', null))
+      .toThrowError('use TestPageOpener.create() instead')
   })
 
   test('constructor throws if basePath is malformed', async () => {
-    const newOpener = (basePath) => () => PageOpener.create(basePath)
+    const newOpener = (basePath) => () => TestPageOpener.create(basePath)
     const prefix = 'basePath should start with \'/\' and end with \'/\', got:'
 
     await expect(newOpener('basedir/')).rejects.toThrow(`${prefix} "basedir/"`)

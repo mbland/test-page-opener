@@ -11,8 +11,29 @@ import { OpenedPage } from './lib/types'
 /**
  * Enables tests to open an application's own page URLs both in the browser and
  * in Node.js using jsdom.
+ *
+ * Usage:
+ *
+ * ```js
+ * import { afterEach, beforeAll, describe, expect, test } from 'vitest'
+ * import { TestPageOpener } from 'test-page-opener'
+ *
+ * describe('TestPageOpener', () => {
+ *   let opener
+ *
+ *   beforeAll(async () => opener = await TestPageOpener.create('/basedir/'))
+ *   afterEach(() => opener.closeAll())
+ *
+ *   test('loads page with module successfully', async () => {
+ *     const { document } = await opener.open('path/to/index.html')
+ *     const appElem = document.querySelector('#app')
+ *
+ *     expect(appElem.textContent).toContain('Hello, World!')
+ *   })
+ * })
+ * ```
  */
-export class PageOpener {
+export class TestPageOpener {
   static #isConstructing = false
 
   #basePath
@@ -28,8 +49,8 @@ export class PageOpener {
    *   jsdom implementation for opening HTML pages
    */
   constructor(basePath, impl) {
-    if (!PageOpener.#isConstructing) {
-      throw new Error('use PageOpener.create() instead')
+    if (!TestPageOpener.#isConstructing) {
+      throw new Error('use TestPageOpener.create() instead')
     }
     if (!basePath.startsWith('/') || !basePath.endsWith('/')) {
       const msg = 'basePath should start with \'/\' and end with \'/\''
@@ -38,35 +59,45 @@ export class PageOpener {
     this.#basePath = basePath
     this.#impl = impl
     this.#opened = []
-    PageOpener.#isConstructing = false
+    TestPageOpener.#isConstructing = false
   }
 
   /**
-   * Creates a new PageOpener instance.
+   * Creates a new TestPageOpener instance.
    *
    * Call this once for each test class or `describe()` block, e.g.:
    *
    * ```js
    * let opener
-   * beforeAll(async () => opener = await PageOpener.create('/basedir/'))
+   * beforeAll(async () => opener = await TestPageOpener.create('/basedir/'))
    * ```
    * @param {string} basePath - base path of the application under test; must
    *   start with '/' and end with '/'
-   * @returns {PageOpener} - a new PageOpener initialized to open pages in the
-   *   current test environment, either via Jsdom or the browser
+   * @returns {TestPageOpener} - a new TestPageOpener initialized to open pages
+   *   in the current test environment, either via Jsdom or the browser
    */
   static async create(basePath) {
     const impl = globalThis.window ?
       new BrowserPageOpener(globalThis.window) :
       new JsdomPageOpener(await import('jsdom'))
 
-    PageOpener.#isConstructing = true
-    return new PageOpener(basePath, impl)
+    TestPageOpener.#isConstructing = true
+    return new TestPageOpener(basePath, impl)
   }
 
   /**
    * Opens a page using the current environment's implementation.
-   * @param {string} pagePath - path to the HTML file relative to basePath
+   *
+   * The returned object contains the opened `window`, the fully loaded
+   * `document`, and a `close()` function for closing the window properly.
+   * Usually you will pull the `document` from the return value and call
+   * `opener.closeAll()` from `afterEach()`, e.g.:
+   *
+   * ```js
+   * const { document } = await opener.open('path/to/index.html')
+   * ```
+   * @param {string} pagePath - path to the HTML file relative to the basePath
+   *   specified during `TestPageOpener.create()`
    * @returns {Promise<OpenedPage>} - object representing the opened page
    */
   async open(pagePath) {
@@ -81,7 +112,13 @@ export class PageOpener {
   }
 
   /**
-   * Closes the window object for all currently opened pages
+   * Closes the window object for all currently opened pages.
+   *
+   * Call this from the teardown function after each test case, e.g.:
+   *
+   * ```js
+   * afterEach(() => opener.closeAll())
+   * ```
    */
   closeAll() {
     this.#opened.forEach(p => p.close())
