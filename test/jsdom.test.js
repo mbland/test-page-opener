@@ -17,8 +17,12 @@ describe.skipIf(globalThis.window !== undefined)('JsdomPageOpener', () => {
     const pagePath = './test-modules/error.html'
     const moduleUrl = pathToFileURL('./test-modules/error.js')
 
-    await expect(() => opener.open('unused', pagePath)).rejects
-      .toThrowError(`error importing modules from ${pagePath}: ` +
-        `Error: error importing ${moduleUrl.href}: Error: test error`)
+    const result = opener.open('unused', pagePath)
+
+    await expect(result).rejects.toThrowError(`opening ${pagePath}`)
+    await result.catch(err => {
+      expect(err.cause.message).toBe(`importing ${moduleUrl.href}`)
+      expect(err.cause.cause.message).toBe('test error')
+    })
   })
 })
