@@ -16,7 +16,7 @@ import { OpenedPage } from './lib/types'
  *
  * ```js
  * import { afterEach, beforeAll, describe, expect, test } from 'vitest'
- * import { TestPageOpener } from 'test-page-opener'
+ * import TestPageOpener from 'test-page-opener'
  *
  * describe('TestPageOpener', () => {
  *   let opener
@@ -33,7 +33,7 @@ import { OpenedPage } from './lib/types'
  * })
  * ```
  */
-export class TestPageOpener {
+export default class TestPageOpener {
   static #isConstructing = false
 
   #basePath
