@@ -30,13 +30,14 @@ import TestPageOpener from 'test-page-opener'
 describe('TestPageOpener', () => {
   let opener
 
-  beforeAll(async () => opener = await TestPageOpener.create('/basedir/'))
+  beforeAll(async () => {opener = await TestPageOpener.create('/basedir/')})
   afterEach(() => opener.closeAll())
 
   test('loads page with module successfully', async () => {
     const { document } = await opener.open('path/to/index.html')
     const appElem = document.querySelector('#app')
 
+    expect(appElem).not.toBeNull()
     expect(appElem.textContent).toContain('Hello, World!')
   })
 })

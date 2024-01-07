@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "checkJs": true,
+    "module": "nodenext",
+    "strict": true,
+    "strictNullChecks": false,
+    "noImplicitAny": false
+  },
+  "exclude": ["node_modules"]
+}

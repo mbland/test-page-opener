@@ -40,6 +40,9 @@ devDependencies:
   jsdom:
     specifier: ^23.1.0
     version: 23.1.0
+  typescript:
+    specifier: ^5.3.3
+    version: 5.3.3
   vite:
     specifier: ^5.0.11
     version: 5.0.11

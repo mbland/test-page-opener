@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint-env browser */
 /*
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -46,8 +47,9 @@ const { window } = await JSDOM.fromFile(
   pagePath, {resources: 'usable', runScripts: 'dangerously'}
 )
 const document = window.document
-const modulePath = document.querySelector('script[type="module"]').src
-const importPromise = import(modulePath)
+/** @type {HTMLScriptElement} */
+const moduleElem = document.querySelector('script[type="module"]')
+const importPromise = import(moduleElem.src)
 
 print(`document.readyState === ${document.readyState}`)
 document.addEventListener('DOMContentLoaded', () => print('DOMContentLoaded'))
