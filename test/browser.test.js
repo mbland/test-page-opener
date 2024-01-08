@@ -4,7 +4,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { DEFAULT_COVERAGE_KEY, getCoverageKey } from '../lib/browser'
+import { DEFAULT_COVERAGE_KEY, getCoverageKey } from '../lib/browser.js'
 import { describe, expect, test } from 'vitest'
 
 describe('getCoverageKey', () => {

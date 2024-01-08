@@ -4,7 +4,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import JsdomPageOpener from '../lib/jsdom'
+import JsdomPageOpener from '../lib/jsdom.js'
 import { beforeAll, describe, expect, test } from 'vitest'
 
 describe.skipIf(globalThis.window !== undefined)('JsdomPageOpener', () => {

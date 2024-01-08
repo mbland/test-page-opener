@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { defineConfig } from 'vite'
 import { configDefaults } from 'vitest/config'
 import fs from 'node:fs'

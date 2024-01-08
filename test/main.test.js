@@ -10,7 +10,7 @@ import TestPageOpener from '../index.js'
 describe('TestPageOpener', () => {
   let opener
 
-  beforeAll(async () => opener = await TestPageOpener.create('/basedir/'))
+  beforeAll(async () => {opener = await TestPageOpener.create('/basedir/')})
   afterEach(() => opener.closeAll())
 
   test('loads page with module successfully', async () => {
@@ -18,7 +18,9 @@ describe('TestPageOpener', () => {
     const appElem = document.querySelector('#app')
     const linkElem = document.querySelector('#app p a')
 
+    expect(appElem).not.toBeNull()
     expect(appElem.textContent).toContain('Hello, World!')
+    expect(linkElem).not.toBeNull()
     expect(linkElem.href).toContain('%22Hello,_World!%22')
   })
 

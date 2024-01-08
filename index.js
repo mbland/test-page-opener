@@ -21,13 +21,14 @@ import { OpenedPage } from './lib/types.js'
  * describe('TestPageOpener', () => {
  *   let opener
  *
- *   beforeAll(async () => opener = await TestPageOpener.create('/basedir/'))
+ *   beforeAll(async () => {opener = await TestPageOpener.create('/basedir/')})
  *   afterEach(() => opener.closeAll())
  *
  *   test('loads page with module successfully', async () => {
  *     const { document } = await opener.open('path/to/index.html')
  *     const appElem = document.querySelector('#app')
  *
+ *     expect(appElem).not.toBeNull()
  *     expect(appElem.textContent).toContain('Hello, World!')
  *   })
  * })
@@ -38,6 +39,7 @@ export default class TestPageOpener {
 
   #basePath
   #impl
+  /** @type {OpenedPage[]} */
   #opened
 
   /**
@@ -69,12 +71,13 @@ export default class TestPageOpener {
    *
    * ```js
    * let opener
-   * beforeAll(async () => opener = await TestPageOpener.create('/basedir/'))
+   * beforeAll(async () => {opener = await TestPageOpener.create('/basedir/')})
    * ```
    * @param {string} basePath - base path of the application under test; must
    *   start with '/' and end with '/'
-   * @returns {TestPageOpener} - a new TestPageOpener initialized to open pages
-   *   in the current test environment, either via Jsdom or the browser
+   * @returns {Promise<TestPageOpener>} - a new TestPageOpener initialized to
+   *   open pages in the current test environment, either via jsdom or the
+   *   browser
    */
   static async create(basePath) {
     const impl = globalThis.window ?
