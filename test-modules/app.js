@@ -8,6 +8,10 @@
 const HELLO_URL = 'https://en.wikipedia.org/wiki/%22Hello,_World!%22_program'
 
 export default class App {
+  /**
+   * @param {object} _ - initializaion parameters
+   * @param {HTMLElement} _.appElem - root element of application
+   */
   init({ appElem }) {
     const t = document.createElement('template')
     t.innerHTML = `<p><a href="${HELLO_URL}">Hello, World!</a></p>`

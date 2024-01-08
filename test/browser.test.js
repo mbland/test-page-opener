@@ -5,7 +5,8 @@
  */
 
 import { DEFAULT_COVERAGE_KEY, getCoverageKey } from '../lib/browser.js'
-import { describe, expect, test } from 'vitest'
+import TestPageOpener from '../index.js'
+import { afterEach, beforeAll, describe, expect, test, vi } from 'vitest'
 
 describe('getCoverageKey', () => {
   test('returns existing coverage key', () => {
@@ -16,5 +17,26 @@ describe('getCoverageKey', () => {
 
   test('returns default __coverage__ key if no existing key', () => {
     expect(getCoverageKey({})).toBe(DEFAULT_COVERAGE_KEY)
+  })
+})
+
+describe.skipIf(globalThis.window === undefined)('BrowserPageOpener', () => {
+  /** @type {TestPageOpener} */
+  let opener
+
+  beforeAll(async () => {opener = await TestPageOpener.create('/basedir/')})
+
+  afterEach(() => {
+    opener.closeAll()
+    vi.unstubAllGlobals()
+  })
+
+  test('open() throws if page fails to open', async () => {
+    const openStub = vi.fn()
+    openStub.mockReturnValueOnce(null)
+    vi.stubGlobal('open', openStub)
+
+    await expect(opener.open('test-modules/index.html')).rejects
+      .toThrowError('failed to open: /basedir/test-modules/index.html')
   })
 })
