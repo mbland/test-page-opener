@@ -7,10 +7,9 @@
   "scripts": {
     "lint": "eslint --color --max-warnings 0 .",
     "test": "vitest",
-    "test:ci": "pnpm lint && pnpm typecheck && pnpm jsdoc && pnpm test:ci:jsdom && pnpm test:ci:browser && pnpm merge-lcov",
+    "test:ci": "pnpm lint && pnpm typecheck && pnpm jsdoc && pnpm test:ci:jsdom && pnpm test:ci:browser",
     "test:ci:jsdom": "vitest run -c ci/vitest.config.js",
     "test:ci:browser": "vitest run -c ci/vitest.config.browser.js",
-    "merge-lcov": "npx lcov-result-merger 'coverage-*/lcov.info' coverage-lcov.info",
     "jsdoc": "jsdoc-cli-wrapper -c jsdoc.json .",
     "typecheck": "npx -p typescript tsc -p jsconfig.json --noEmit --pretty",
     "prepack": "npx -p typescript tsc ./index.js --allowJs --declaration --declarationMap --emitDeclarationOnly --outDir types"
@@ -50,7 +49,6 @@
     "jsdoc-cli-wrapper": "^1.0.5",
     "jsdoc-plugin-intersection": "^1.0.4",
     "jsdom": "^23.2.0",
-    "lcov-result-merger": "^5.0.0",
     "typescript": "^5.3.3",
     "vite": "^5.0.11",
     "vitest": "^1.1.3",
