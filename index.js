@@ -102,6 +102,7 @@ export default class TestPageOpener {
    * @param {string} pagePath - path to the HTML file relative to the basePath
    *   specified during `TestPageOpener.create()`
    * @returns {Promise<OpenedPage>} - object representing the opened page
+   * @throws {Error} if pagePath is malformed or opening page failed
    */
   async open(pagePath) {
     if (pagePath.startsWith('/')) {

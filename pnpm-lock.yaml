@@ -13,6 +13,15 @@ devDependencies:
   '@stylistic/eslint-plugin-js':
     specifier: ^1.5.3
     version: 1.5.3(eslint@8.56.0)
+  '@types/chai':
+    specifier: ^4.3.11
+    version: 4.3.11
+  '@types/istanbul-lib-coverage':
+    specifier: ^2.0.6
+    version: 2.0.6
+  '@types/jsdom':
+    specifier: ^21.1.6
+    version: 21.1.6
   '@vitest/browser':
     specifier: ^1.1.3
     version: 1.1.3(vitest@1.1.3)(webdriverio@8.27.0)
@@ -35,6 +44,9 @@ devDependencies:
     specifier: ^0.3.20
     version: 0.3.20(eslint@8.56.0)(typescript@5.3.3)(vitest@1.1.3)
   jsdoc-cli-wrapper:
+    specifier: ^1.0.4
+    version: 1.0.4
+  jsdoc-plugin-intersection:
     specifier: ^1.0.4
     version: 1.0.4
   jsdom:
@@ -797,6 +809,10 @@ packages:
     resolution: {integrity: sha512-C5Mc6rdnsaJDjO3UpGW/CQTHtCKaYlScZTly4JIu97Jxo/odCiH0ITnDXSJPTOrEKk/ycSZ0AOgTmkDtkOsvIA==}
     dev: true
 
+  /@types/chai@4.3.11:
+    resolution: {integrity: sha512-qQR1dr2rGIHYlJulmr8Ioq3De0Le9E4MJ5AiaeAETJJpndT1uUNHsGFK3L/UIu+rbkQSdj8J/w2bCsBZc/Y5fQ==}
+    dev: true
+
   /@types/estree@1.0.5:
     resolution: {integrity: sha512-/kYRxGDLWzHOB7q+wtSUQlFrtcdUccpfy+X+9iMBpHK8QLLhx2wIPYuS5DYtR9Wa/YlZAbIovy7qVdB1Aq6Lyw==}
     dev: true
@@ -807,6 +823,14 @@ packages:
 
   /@types/istanbul-lib-coverage@2.0.6:
     resolution: {integrity: sha512-2QF/t/auWm0lsy8XtKVPG19v3sSOQlJe/YHZgfjb/KBBHOGSV+J2q/S671rcq9uTBrLAXmZpqJiaQbMT+zNU1w==}
+    dev: true
+
+  /@types/jsdom@21.1.6:
+    resolution: {integrity: sha512-/7kkMsC+/kMs7gAYmmBR9P0vGTnOoLhQhyhQJSlXGI5bzTHp6xdo0TtKWQAsz6pmSAeVqKSbqeyP6hytqr9FDw==}
+    dependencies:
+      '@types/node': 20.10.6
+      '@types/tough-cookie': 4.0.5
+      parse5: 7.1.2
     dev: true
 
   /@types/json-schema@7.0.15:
@@ -821,6 +845,10 @@ packages:
 
   /@types/semver@7.5.6:
     resolution: {integrity: sha512-dn1l8LaMea/IjDoHNd9J52uBbInB796CDffS6VdIxvqYCPSG0V0DzHp76GpaWnlhg88uYyPbXCDIowa86ybd5A==}
+    dev: true
+
+  /@types/tough-cookie@4.0.5:
+    resolution: {integrity: sha512-/Ad8+nIOV7Rl++6f1BdKxFSMgmoqEoYbHRpPcx3JEfv8VRsQe9Z4mCXeJBzxs7mbHY/XOZZuXlRNfhpVPbs6ZA==}
     dev: true
 
   /@types/which@2.0.2:
@@ -2474,6 +2502,10 @@ packages:
     resolution: {integrity: sha512-JzdBSsLkS5Q8BIaO8b9SC3kfUc7NsHc7egpJLJGqQQsm+X4rXooG0hClwGVm1LVNuca3bpeq/Mw99BcUiD4rQw==}
     engines: {node: '>= 18.0.0'}
     hasBin: true
+    dev: true
+
+  /jsdoc-plugin-intersection@1.0.4:
+    resolution: {integrity: sha512-5OGv+aWpp0pYRMnhaUeqijesIi/xD2z8IIwIlK+JsQ0sXzMjiWT2YgNSvxcd476pRdh70Xmby/l7GD3NkWcKcQ==}
     dev: true
 
   /jsdoc-type-pratt-parser@4.0.0:

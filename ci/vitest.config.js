@@ -8,7 +8,6 @@ export default mergeConfig(viteConfig, defineConfig({
     reporters: [ 'junit', 'default' ],
     coverage: {
       enabled: true,
-      provider: 'istanbul',
       reporter: [ 'text', 'lcovonly' ],
       reportsDirectory: 'coverage-jsdom'
     }

@@ -47,8 +47,12 @@ const { window } = await JSDOM.fromFile(
   pagePath, {resources: 'usable', runScripts: 'dangerously'}
 )
 const document = window.document
-/** @type {HTMLScriptElement} */
+/** @type {(HTMLScriptElement | null)} */
 const moduleElem = document.querySelector('script[type="module"]')
+if (moduleElem === null) {
+  throw new Error(`no <script type="module"> in: ${pagePath}`)
+}
+
 const importPromise = import(moduleElem.src)
 
 print(`document.readyState === ${document.readyState}`)

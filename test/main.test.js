@@ -1,3 +1,4 @@
+/* eslint-env browser */
 /*
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -6,39 +7,45 @@
 
 import { afterEach, beforeAll, describe, expect, test } from 'vitest'
 import TestPageOpener from '../index.js'
+import BrowserPageOpener from '../lib/browser.js'
 
 describe('TestPageOpener', () => {
+  /** @type {TestPageOpener} */
   let opener
 
   beforeAll(async () => {opener = await TestPageOpener.create('/basedir/')})
-  afterEach(() => opener.closeAll())
+  afterEach(() => {opener.closeAll()})
 
   test('loads page with module successfully', async () => {
     const { document } = await opener.open('test-modules/index.html')
+    /** @type {(HTMLDivElement | null)} */
     const appElem = document.querySelector('#app')
+    /** @type {(HTMLAnchorElement | null)} */
     const linkElem = document.querySelector('#app p a')
 
     expect(appElem).not.toBeNull()
-    expect(appElem.textContent).toContain('Hello, World!')
+    expect((appElem || {}).textContent).toContain('Hello, World!')
     expect(linkElem).not.toBeNull()
-    expect(linkElem.href).toContain('%22Hello,_World!%22')
+    expect((linkElem || {}).href).toContain('%22Hello,_World!%22')
   })
 
   test('constructor throws if called directly', () => {
-    expect(() => new TestPageOpener('unused', null))
+    const opener = /** @type {BrowserPageOpener} */ ({})
+    expect(() => new TestPageOpener('unused', opener))
       .toThrowError('use TestPageOpener.create() instead')
   })
 
   test('constructor throws if basePath is malformed', async () => {
-    const newOpener = (basePath) => () => TestPageOpener.create(basePath)
     const prefix = 'basePath should start with \'/\' and end with \'/\', got:'
 
-    await expect(newOpener('basedir/')).rejects.toThrow(`${prefix} "basedir/"`)
-    await expect(newOpener('/basedir')).rejects.toThrow(`${prefix} "/basedir"`)
+    await expect(() => TestPageOpener.create('basedir/')).rejects
+      .toThrowError(`${prefix} "basedir/"`)
+    await expect(() => TestPageOpener.create('/basedir')).rejects
+      .toThrowError(`${prefix} "/basedir"`)
   })
 
   test('open() throws if page path starts with \'/\'', async () => {
     await expect(opener.open('/index.html')).rejects
-      .toThrow('page path shouldn\'t start with \'/\', got: "/index.html"')
+      .toThrowError('page path shouldn\'t start with \'/\', got: "/index.html"')
   })
 })

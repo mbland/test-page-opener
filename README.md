@@ -43,6 +43,39 @@ describe('TestPageOpener', () => {
 })
 ```
 
+### Using with a bundler (e.g., with Rollup, Vite, and Vitest)
+
+If your project uses any bundler plugins that perform source transforms, you
+_may_ need to configure your project to include `test-page-loader` in the test
+bundle. Specifically, if it transforms files without a `.js` extension into importable JavaScript, `test-page-opener` may fail with an error resembling:
+
+```text
+Caused by: TypeError: Unknown file extension ".hbs" for
+/.../mbland/tomcat-servlet-testing-example/strcalc/src/main/frontend/components/calculator.hbs
+————————————————————————————————————————————————————————
+Serialized Error: { code: 'ERR_UNKNOWN_FILE_EXTENSION' }
+————————————————————————————————————————————————————————
+```
+
+For example, using [Vite][] and [Vitest][], which use [Rollup][] under the hood,
+you will need to add this `server:` setting to the `test` config object:
+
+```js
+test: {
+  server: {
+    deps: {
+      // Without this, jsdom tests will fail to import '.hbs' files
+      // transformed by rollup-plugin-handlebars-precompiler.
+      inline: ['test-page-opener']
+    }
+  }
+}
+```
+
+For a concrete example with more details, see:
+
+- <https://github.com/mbland/tomcat-servlet-testing-example/pull/83>
+
 ### Reporting code coverage
 
 `TestPageOpener` makes it possible to collect code coverage from opened browser
@@ -229,11 +262,12 @@ level explanation.
 [coveralls-tpo]: https://coveralls.io/github/mbland/test-page-opener?branch=main
 [npm-tpo]: https://www.npmjs.com/package/test-page-opener
 [pnpm]: https://pnpm.io/
+[Vite]: https://vitejs.dev/
+[Vitest]: https://vitest.dev/
+[Rollup]: https://rollupjs.org/
 [DOMContentLoaded]: https://developer.mozilla.org/docs/Web/API/Document/DOMContentLoaded_event
 [window.load]: https://developer.mozilla.org/docs/Web/API/Window/load_event
 [DOM]: https://developer.mozilla.org/docs/Web/API/Document_Object_Model
-[Vite]: https://vitejs.dev/
-[Vitest]: https://vitest.dev/
 [ECMAScript Modules]: https://nodejs.org/docs/latest-v18.x/api/esm.html
 [ESM resolution and loading algorithm]: https://nodejs.org/docs/latest-v18.x/api/esm.html#resolution-and-loading-algorithm
 [jsdom-2475]: https://github.com/jsdom/jsdom/issues/2475
