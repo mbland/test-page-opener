@@ -4,7 +4,7 @@
 TESTS-*.xml
 build/
 coverage/
-coverage-*/
+coverage-*
 dist/
 jsdoc/
 node_modules/
