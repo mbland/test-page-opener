@@ -46,3 +46,6 @@ jobs:
 
       - name: Send test coverage to Coveralls.io
         uses: coverallsapp/github-action@v2
+        with:
+          # From `pnpm merge-lcov`, via `pnpm test:ci`
+          file: coverage-lcov.info
