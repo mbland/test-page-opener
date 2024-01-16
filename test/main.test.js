@@ -7,7 +7,7 @@
 
 import { afterEach, beforeAll, describe, expect, test } from 'vitest'
 import TestPageOpener from '../index.js'
-import BrowserPageOpener from '../lib/browser.js'
+import JsdomPageOpener from '../lib/jsdom.js'
 
 describe('TestPageOpener', () => {
   /** @type {TestPageOpener} */
@@ -30,7 +30,7 @@ describe('TestPageOpener', () => {
   })
 
   test('constructor throws if called directly', () => {
-    const opener = /** @type {BrowserPageOpener} */ ({})
+    const opener = new JsdomPageOpener({JSDOM: {fromFile: () => {}}})
     expect(() => new TestPageOpener('unused', opener))
       .toThrowError('use TestPageOpener.create() instead')
   })

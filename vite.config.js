@@ -1,8 +1,8 @@
-// @ts-nocheck
 import { defineConfig } from 'vite'
 import { configDefaults } from 'vitest/config'
 import fs from 'node:fs'
 import os from 'node:os'
+import process from 'node:process'
 
 const ARM64_LINUX_WARNING = [
   '',
@@ -60,7 +60,7 @@ export default defineConfig({
   test: {
     coverage: {
       reportsDirectory: 'coverage',
-      exclude: [...configDefaults.coverage.exclude, 'jsdoc', 'out']
+      exclude: [...(configDefaults.coverage.exclude || []), 'jsdoc', 'out']
     },
     browser: {
       name: 'chrome',

@@ -35,6 +35,7 @@
 
 import { JSDOM } from 'jsdom'
 import { fileURLToPath } from 'node:url'
+import process from 'node:process'
 
 /**
  * Prints a string to standard output
