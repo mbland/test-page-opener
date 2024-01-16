@@ -6,7 +6,7 @@
 
 import BrowserPageOpener from './lib/browser.js'
 import JsdomPageOpener from './lib/jsdom.js'
-import { OpenedPage } from './lib/types.js'
+import {OpenedPage} from './lib/types.js'  // eslint-disable-line no-unused-vars
 
 /**
  * Enables tests to open an application's own page URLs both in the browser and

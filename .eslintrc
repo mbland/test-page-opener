@@ -14,7 +14,7 @@
   ],
   "extends": [
     "eslint:recommended",
-    "plugin:jsdoc/recommended"
+    "plugin:jsdoc/recommended-typescript-flavor-error"
   ],
   "overrides": [
     {

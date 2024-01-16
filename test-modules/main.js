@@ -6,7 +6,7 @@
  */
 
 import App from './app.js'
-import * as types from './types.js'
+import {InitParams} from './types.js'  // eslint-disable-line no-unused-vars
 
 document.addEventListener(
   'DOMContentLoaded',
@@ -15,7 +15,7 @@ document.addEventListener(
     const appElem = document.querySelector('#app')
     if (appElem === null) return console.error('no #app element')
 
-    /** @type {types.InitParams} */
+    /** @type {InitParams} */
     const initParams = { appElem }
     new App().init(initParams)
   },
