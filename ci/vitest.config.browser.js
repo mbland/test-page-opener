@@ -5,7 +5,6 @@ export default mergeConfig(baseConfig, defineConfig({
   test: {
     outputFile: 'TESTS-TestSuites-browser.xml',
     coverage: {
-      provider: 'istanbul',
       reportsDirectory: 'coverage-browser'
     },
     browser: {
