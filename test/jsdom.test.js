@@ -6,22 +6,17 @@
  */
 
 import JsdomPageOpener from '../lib/jsdom.js'
-import { afterEach, beforeAll, describe, expect, test, vi } from 'vitest'
+import JsdomFixture from './jsdom-fixture.js'
+import { afterEach, beforeAll, describe, expect, test } from 'vitest'
 
-describe.skipIf(globalThis.window !== undefined)('JsdomPageOpener', () => {
-  const origWindow = globalThis.window
-  const origDocument = globalThis.document
-
+describe.skipIf(globalThis.window)('JsdomPageOpener', () => {
   /** @type {JsdomPageOpener} */
   let opener
+  const fixture = new JsdomFixture()
 
   beforeAll(async () => {opener = new JsdomPageOpener(await import('jsdom'))})
 
-  afterEach(() => {
-    globalThis.window = origWindow
-    globalThis.document = origDocument
-    vi.restoreAllMocks()
-  })
+  afterEach(fixture.restoreOrigWindowAndDocument)
 
   test('restores original globalThis.{window,document}', async () => {
     const pagePath = './test-modules/index.html'
@@ -49,16 +44,5 @@ describe.skipIf(globalThis.window !== undefined)('JsdomPageOpener', () => {
       expect(err.cause.message).toBe(`importing ${moduleUrl.href}`)
       expect(err.cause.cause.message).toBe('test error')
     })
-  })
-
-  test('doesn\'t throw if missing app div', async () => {
-    const pagePath = './test-modules/missing.html'
-    const consoleSpy = vi.spyOn(console, 'error')
-      .mockImplementationOnce(() => {})
-
-    const { close } = await opener.open('/basedir/', pagePath)
-    close()
-
-    expect(consoleSpy).toBeCalledWith('no #app element')
   })
 })
